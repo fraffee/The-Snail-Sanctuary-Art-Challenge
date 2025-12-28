@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Snail Sanctuary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+      @font-face {
+        font-family: 'Momentz';
+        src: url('https://github.com/fraffee/snail-sanctuary/blob/main/Momentz.ttf?raw=true') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: 'Quicksand', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #022c22;
+      }
+      #root { width: 100vw; height: 100vh; }
+      
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        background-color: #022c22;
+        transition: opacity 1s ease-in-out;
+      }
+      .snail-loader {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: crawl 3s linear infinite;
+      }
+      @keyframes crawl {
+        0% { transform: translateX(-20px); }
+        50% { transform: translateX(20px); }
+        100% { transform: translateX(-20px); }
+      }
+
+      .font-momentz {
+        font-family: 'Momentz', cursive;
+      }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react,react-dom",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+  </head>
+  <body>
+    <div id="loading-screen">
+      <div class="snail-loader">🐌</div>
+      <div id="loading-status" style="letter-spacing: 0.2em; text-transform: uppercase; font-size: 10px; color: rgba(255,255,255,0.3)">
+        Entering the Sanctuary...
+      </div>
+    </div>
+    <div id="root"></div>
+
+    <script type="module" src="./index.tsx"></script>
+
+    <script type="module">
+      const checkMount = setInterval(() => {
+        const root = document.getElementById('root');
+        if (root && root.children.length > 0) {
+          clearInterval(checkMount);
+          setTimeout(() => {
+            const screen = document.getElementById('loading-screen');
+            if (screen) {
+              screen.style.opacity = '0';
+              setTimeout(() => screen.remove(), 1000);
+            }
+          }, 500);
+        }
+      }, 100);
+    </script>
+  </body>
+</html>
